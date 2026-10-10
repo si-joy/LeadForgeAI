@@ -24,6 +24,10 @@ class LeadSearch(models.Model):
         help_text="Comma-separated keywords",
     )
 
+    lead_limit = models.PositiveIntegerField(
+        default=100,
+    )
+
     status = models.CharField(
         max_length=20,
         choices=Status.choices,

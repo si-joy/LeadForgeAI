@@ -1,0 +1,106 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+{{ lead_search.name }} | LeadForge AI
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+  <div>
+
+    <h1 class="page-title">
+      {{ lead_search.name }}
+    </h1>
+
+    <p class="page-description">
+      Review your search configuration before starting lead discovery.
+    </p>
+
+  </div>
+
+  <div class="page-actions">
+
+    <button
+      class="btn btn-primary"
+      type="button"
+    >
+      Start Discovery
+    </button>
+
+  </div>
+
+</div>
+
+
+<div class="dashboard-grid content-grid">
+
+  <section class="card">
+
+    <div class="card-header">
+      <h2 class="card-title">
+        Search Configuration
+      </h2>
+    </div>
+
+    <div class="card-body">
+
+      <p>
+        <strong>Niche:</strong>
+        {{ lead_search.niche }}
+      </p>
+
+      <p>
+        <strong>Location:</strong>
+        {{ lead_search.location|default:"Global" }}
+      </p>
+
+      <p>
+        <strong>Lead limit:</strong>
+        {{ lead_search.lead_limit }}
+      </p>
+
+      <p>
+        <strong>Keywords:</strong>
+        {{ lead_search.keywords|default:"—" }}
+      </p>
+
+      <p>
+        <strong>Status:</strong>
+
+        <span class="badge badge-neutral">
+          {{ lead_search.get_status_display }}
+        </span>
+      </p>
+
+    </div>
+
+  </section>
+
+
+  <aside class="card">
+
+    <div class="card-header">
+      <h2 class="card-title">
+        Discovery Status
+      </h2>
+    </div>
+
+    <div class="card-body">
+
+      <div class="stat-value">
+        0
+      </div>
+
+      <div class="stat-meta">
+        Leads discovered
+      </div>
+
+    </div>
+
+  </aside>
+
+</div>
+
+{% endblock %}

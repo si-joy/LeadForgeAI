@@ -1,0 +1,182 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+New Search | LeadForge AI
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+  <div>
+    <h1 class="page-title">
+      Create Lead Search
+    </h1>
+
+    <p class="page-description">
+      Define your target market and search criteria.
+      LeadForge will use these settings to discover
+      relevant business prospects.
+    </p>
+  </div>
+
+</div>
+
+
+<section class="card form-card">
+
+  <div class="card-header">
+
+    <div>
+      <h2 class="card-title">
+        Search Criteria
+      </h2>
+
+      <p class="card-subtitle">
+        Tell LeadForge what kind of businesses you want to find.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="card-body">
+
+    <form method="post" novalidate>
+
+      {% csrf_token %}
+
+      <div class="form-grid">
+
+        <div class="form-group">
+
+          <label
+            class="form-label"
+            for="{{ form.name.id_for_label }}"
+          >
+            Search Name
+          </label>
+
+          {{ form.name }}
+
+          {% for error in form.name.errors %}
+            <div class="form-error">
+              {{ error }}
+            </div>
+          {% endfor %}
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label
+            class="form-label"
+            for="{{ form.niche.id_for_label }}"
+          >
+            Niche
+          </label>
+
+          {{ form.niche }}
+
+          {% for error in form.niche.errors %}
+            <div class="form-error">
+              {{ error }}
+            </div>
+          {% endfor %}
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label
+            class="form-label"
+            for="{{ form.location.id_for_label }}"
+          >
+            Location
+          </label>
+
+          {{ form.location }}
+
+          <div class="form-help">
+            Leave blank for a broader/global search.
+          </div>
+
+        </div>
+
+
+        <div class="form-group">
+
+          <label
+            class="form-label"
+            for="{{ form.lead_limit.id_for_label }}"
+          >
+            Lead Limit
+          </label>
+
+          {{ form.lead_limit }}
+
+          <div class="form-help">
+            Between 10 and 5,000 leads.
+          </div>
+
+        </div>
+
+
+        <div class="form-group form-group-full">
+
+          <label
+            class="form-label"
+            for="{{ form.keywords.id_for_label }}"
+          >
+            Keywords
+          </label>
+
+          {{ form.keywords }}
+
+          <div class="form-help">
+            Add targeting signals separated by commas.
+          </div>
+
+        </div>
+
+      </div>
+
+
+      {% if form.non_field_errors %}
+
+        {% for error in form.non_field_errors %}
+          <div class="form-error">
+            {{ error }}
+          </div>
+        {% endfor %}
+
+      {% endif %}
+
+
+      <div class="form-actions">
+
+        <a
+          href="{% url 'dashboard' %}"
+          class="btn btn-secondary"
+        >
+          Cancel
+        </a>
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          Create Search
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</section>
+
+{% endblock %}
