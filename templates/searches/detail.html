@@ -15,19 +15,96 @@
     </h1>
 
     <p class="page-description">
-      Review your search configuration before starting lead discovery.
+      Review targeting criteria, discovery status and collected leads.
     </p>
 
   </div>
 
   <div class="page-actions">
 
-    <button
-      class="btn btn-primary"
-      type="button"
+    <a
+      href="{% url 'searches:list' %}"
+      class="btn btn-secondary"
     >
-      Start Discovery
-    </button>
+      Back
+    </a>
+
+    {% if lead_search.status == "draft" or lead_search.status == "failed" %}
+
+      <form
+        method="post"
+        action="{% url 'searches:start' lead_search.pk %}"
+      >
+        {% csrf_token %}
+
+        <button
+          type="submit"
+          class="btn btn-primary"
+        >
+          Start Discovery
+        </button>
+      </form>
+
+    {% endif %}
+
+  </div>
+
+</div>
+
+
+<div class="dashboard-grid stats-grid">
+
+  <div class="card stat-card">
+
+    <div class="stat-label">
+      Status
+    </div>
+
+    <div class="stat-value">
+      {{ lead_search.get_status_display }}
+    </div>
+
+  </div>
+
+
+  <div class="card stat-card">
+
+    <div class="stat-label">
+      Leads Found
+    </div>
+
+    <div class="stat-value">
+      {{ lead_search.leads_count }}
+    </div>
+
+  </div>
+
+
+  <div class="card stat-card">
+
+    <div class="stat-label">
+      Target Limit
+    </div>
+
+    <div class="stat-value">
+      {{ lead_search.lead_limit }}
+    </div>
+
+  </div>
+
+
+  <div class="card stat-card">
+
+    <div class="stat-label">
+      Created
+    </div>
+
+    <div
+      class="stat-value"
+      style="font-size: 18px;"
+    >
+      {{ lead_search.created_at|date:"M d, Y" }}
+    </div>
 
   </div>
 
@@ -39,40 +116,48 @@
   <section class="card">
 
     <div class="card-header">
-      <h2 class="card-title">
-        Search Configuration
-      </h2>
+
+      <div>
+        <h2 class="card-title">
+          Search Configuration
+        </h2>
+
+        <p class="card-subtitle">
+          Targeting information used by discovery.
+        </p>
+      </div>
+
     </div>
 
     <div class="card-body">
 
-      <p>
-        <strong>Niche:</strong>
-        {{ lead_search.niche }}
-      </p>
+      <div class="detail-list">
 
-      <p>
-        <strong>Location:</strong>
-        {{ lead_search.location|default:"Global" }}
-      </p>
+        <div class="detail-row">
+          <span>Niche</span>
+          <strong>{{ lead_search.niche }}</strong>
+        </div>
 
-      <p>
-        <strong>Lead limit:</strong>
-        {{ lead_search.lead_limit }}
-      </p>
+        <div class="detail-row">
+          <span>Location</span>
+          <strong>
+            {{ lead_search.location|default:"Global" }}
+          </strong>
+        </div>
 
-      <p>
-        <strong>Keywords:</strong>
-        {{ lead_search.keywords|default:"—" }}
-      </p>
+        <div class="detail-row">
+          <span>Lead Limit</span>
+          <strong>{{ lead_search.lead_limit }}</strong>
+        </div>
 
-      <p>
-        <strong>Status:</strong>
+        <div class="detail-row">
+          <span>Keywords</span>
+          <strong>
+            {{ lead_search.keywords|default:"—" }}
+          </strong>
+        </div>
 
-        <span class="badge badge-neutral">
-          {{ lead_search.get_status_display }}
-        </span>
-      </p>
+      </div>
 
     </div>
 
@@ -82,19 +167,39 @@
   <aside class="card">
 
     <div class="card-header">
-      <h2 class="card-title">
-        Discovery Status
-      </h2>
+
+      <div>
+        <h2 class="card-title">
+          Discovery Workflow
+        </h2>
+      </div>
+
     </div>
 
     <div class="card-body">
 
-      <div class="stat-value">
-        0
-      </div>
+      <div class="workflow-status">
 
-      <div class="stat-meta">
-        Leads discovered
+        <div class="workflow-item">
+          <span class="workflow-dot"></span>
+          Draft
+        </div>
+
+        <div class="workflow-item">
+          <span class="workflow-dot"></span>
+          Queued
+        </div>
+
+        <div class="workflow-item">
+          <span class="workflow-dot"></span>
+          Running
+        </div>
+
+        <div class="workflow-item">
+          <span class="workflow-dot"></span>
+          Completed
+        </div>
+
       </div>
 
     </div>
@@ -102,5 +207,128 @@
   </aside>
 
 </div>
+
+
+<section
+  class="card"
+  style="margin-top: 20px;"
+>
+
+  <div class="card-header">
+
+    <div>
+      <h2 class="card-title">
+        Discovered Leads
+      </h2>
+
+      <p class="card-subtitle">
+        Leads collected by this search.
+      </p>
+    </div>
+
+  </div>
+
+
+  <div class="table-wrap">
+
+    <table class="data-table">
+
+      <thead>
+        <tr>
+          <th>Business</th>
+          <th>Category</th>
+          <th>Location</th>
+          <th>Score</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {% for lead in recent_leads %}
+
+          <tr>
+
+            <td>
+              <div class="company-cell">
+
+                <div class="company-logo">
+                  {{ lead.business_name|slice:":2"|upper }}
+                </div>
+
+                <div>
+
+                  <div class="company-name">
+                    {{ lead.business_name }}
+                  </div>
+
+                  <div class="company-domain">
+                    {{ lead.domain|default:"No website" }}
+                  </div>
+
+                </div>
+
+              </div>
+            </td>
+
+            <td>
+              {{ lead.category|default:"—" }}
+            </td>
+
+            <td>
+              {{ lead.city|default:"" }}
+
+              {% if lead.city and lead.country %}
+                ,
+              {% endif %}
+
+              {{ lead.country|default:"—" }}
+            </td>
+
+            <td>
+              {{ lead.ai_score|default:"—" }}
+            </td>
+
+            <td>
+              <span class="badge badge-neutral">
+                {{ lead.get_status_display }}
+              </span>
+            </td>
+
+          </tr>
+
+        {% empty %}
+
+          <tr>
+            <td colspan="5">
+
+              <div class="empty-state">
+
+                <div class="empty-state-icon">
+                  ◎
+                </div>
+
+                <h3>
+                  No leads discovered yet
+                </h3>
+
+                <p>
+                  Start this discovery search to begin collecting matching businesses.
+                </p>
+
+              </div>
+
+            </td>
+          </tr>
+
+        {% endfor %}
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
 
 {% endblock %}

@@ -747,3 +747,76 @@ textarea.form-control {
     grid-column: auto;
   }
 }
+
+.empty-state {
+  max-width: 460px;
+  margin: 0 auto;
+  padding: 52px 24px;
+  text-align: center;
+}
+
+.empty-state-icon {
+  width: 52px;
+  height: 52px;
+  margin: 0 auto 16px;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  color: var(--color-primary);
+  background: var(--color-primary-soft);
+  font-size: 22px;
+}
+
+.empty-state h3 {
+  margin: 0;
+  font-size: 18px;
+}
+
+.empty-state p {
+  margin: 8px auto 20px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+.detail-list {
+  display: grid;
+}
+
+.detail-row {
+  display: grid;
+  grid-template-columns: minmax(120px, 180px) 1fr;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--color-border);
+  font-size: 13px;
+}
+
+.detail-row:last-child {
+  border-bottom: 0;
+}
+
+.detail-row span {
+  color: var(--color-text-muted);
+}
+
+.workflow-status {
+  display: grid;
+  gap: 18px;
+}
+
+.workflow-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--color-text-muted);
+  font-size: 13px;
+}
+
+.workflow-dot {
+  width: 11px;
+  height: 11px;
+  border: 3px solid var(--color-primary-soft);
+  border-radius: 50%;
+  background: var(--color-primary);
+}

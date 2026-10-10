@@ -1,0 +1,161 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+Lead Searches | LeadForge AI
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+  <div>
+    <h1 class="page-title">
+      Lead Searches
+    </h1>
+
+    <p class="page-description">
+      Create, review and monitor your lead discovery searches.
+    </p>
+  </div>
+
+  <div class="page-actions">
+    <a
+      href="{% url 'searches:create' %}"
+      class="btn btn-primary"
+    >
+      + New Search
+    </a>
+  </div>
+
+</div>
+
+
+<section class="card">
+
+  <div class="card-header">
+    <div>
+      <h2 class="card-title">
+        Your Searches
+      </h2>
+
+      <p class="card-subtitle">
+        All discovery jobs created in this workspace.
+      </p>
+    </div>
+  </div>
+
+
+  <div class="table-wrap">
+
+    <table class="data-table">
+
+      <thead>
+        <tr>
+          <th>Search</th>
+          <th>Niche</th>
+          <th>Location</th>
+          <th>Leads</th>
+          <th>Status</th>
+          <th>Created</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {% for item in searches %}
+
+          <tr>
+
+            <td>
+              <a
+                href="{% url 'searches:detail' item.pk %}"
+                class="text-link"
+              >
+                {{ item.name }}
+              </a>
+            </td>
+
+            <td>
+              {{ item.niche }}
+            </td>
+
+            <td>
+              {{ item.location|default:"Global" }}
+            </td>
+
+            <td>
+              {{ item.leads_count }}
+            </td>
+
+            <td>
+
+              {% if item.status == "completed" %}
+
+                <span class="badge badge-success">
+                  {{ item.get_status_display }}
+                </span>
+
+              {% elif item.status == "failed" %}
+
+                <span class="badge badge-warning">
+                  {{ item.get_status_display }}
+                </span>
+
+              {% else %}
+
+                <span class="badge badge-neutral">
+                  {{ item.get_status_display }}
+                </span>
+
+              {% endif %}
+
+            </td>
+
+            <td>
+              {{ item.created_at|date:"M d, Y" }}
+            </td>
+
+          </tr>
+
+        {% empty %}
+
+          <tr>
+            <td colspan="6">
+
+              <div class="empty-state">
+
+                <div class="empty-state-icon">
+                  ⌕
+                </div>
+
+                <h3>
+                  No searches yet
+                </h3>
+
+                <p>
+                  Create your first search and start building your lead pipeline.
+                </p>
+
+                <a
+                  href="{% url 'searches:create' %}"
+                  class="btn btn-primary"
+                >
+                  Create Search
+                </a>
+
+              </div>
+
+            </td>
+          </tr>
+
+        {% endfor %}
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</section>
+
+{% endblock %}
