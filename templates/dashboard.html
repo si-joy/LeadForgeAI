@@ -1,0 +1,355 @@
+{% extends "layouts/dashboard.html" %}
+
+{% block title %}
+Dashboard | LeadForge AI
+{% endblock %}
+
+{% block content %}
+
+<div class="page-header">
+
+  <div>
+
+    <h1 class="page-title">
+      Good to see you 👋
+    </h1>
+
+    <p class="page-description">
+      Discover high-potential businesses, qualify opportunities
+      and manage your lead pipeline from one intelligent workspace.
+    </p>
+
+  </div>
+
+  <div class="page-actions">
+
+    <button class="btn btn-secondary">
+      Import Leads
+    </button>
+
+    <button class="btn btn-primary">
+      + New Search
+    </button>
+
+  </div>
+
+</div>
+
+
+<div class="dashboard-grid stats-grid">
+
+  <div class="card stat-card">
+
+    <div class="stat-header">
+      <span class="stat-label">
+        Total Leads
+      </span>
+
+      <div class="stat-icon">
+        ◎
+      </div>
+    </div>
+
+    <div class="stat-value">
+      {{ total_leads }}
+    </div>
+
+    <div class="stat-meta">
+      Ready for your first search
+    </div>
+
+  </div>
+
+
+  <div class="card stat-card">
+
+    <div class="stat-header">
+      <span class="stat-label">
+        Qualified Leads
+      </span>
+
+      <div class="stat-icon">
+        ✓
+      </div>
+    </div>
+
+    <div class="stat-value">
+      {{ qualified_leads }}
+    </div>
+
+    <div class="stat-meta">
+      <span class="stat-positive">
+        AI scoring ready
+      </span>
+    </div>
+
+  </div>
+
+
+  <div class="card stat-card">
+
+    <div class="stat-header">
+      <span class="stat-label">
+        Searches
+      </span>
+
+      <div class="stat-icon">
+        ⌕
+      </div>
+    </div>
+
+    <div class="stat-value">
+      {{ total_searches }}
+    </div>
+
+    <div class="stat-meta">
+      No searches created yet
+    </div>
+
+  </div>
+
+
+  <div class="card stat-card">
+
+    <div class="stat-header">
+      <span class="stat-label">
+        Avg. Lead Score
+      </span>
+
+      <div class="stat-icon">
+        ★
+      </div>
+    </div>
+
+    <div class="stat-value">
+        {% if avg_score %}
+            {{ avg_score|floatformat:0 }}
+        {% else %}
+            —
+        {% endif %}
+    </div>
+
+    <div class="stat-meta">
+      Available after qualification
+    </div>
+
+  </div>
+
+</div>
+
+
+<div class="dashboard-grid content-grid">
+
+  <section class="card">
+
+    <div class="card-header">
+
+      <div>
+        <h2 class="card-title">
+          Recent Leads
+        </h2>
+
+        <p class="card-subtitle">
+          Your latest discovered prospects
+        </p>
+      </div>
+
+      <a href="#" class="text-link">
+        View all
+      </a>
+
+    </div>
+
+    <div class="table-wrap">
+
+      <table class="data-table">
+
+        <thead>
+          <tr>
+            <th>Business</th>
+            <th>Category</th>
+            <th>Location</th>
+            <th>Score</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+
+<tbody>
+
+  {% for lead in recent_leads %}
+
+    <tr>
+
+      <td>
+        <div class="company-cell">
+
+          <div class="company-logo">
+            {{ lead.business_name|slice:":2"|upper }}
+          </div>
+
+          <div>
+            <div class="company-name">
+              {{ lead.business_name }}
+            </div>
+
+            <div class="company-domain">
+              {% if lead.domain %}
+                {{ lead.domain }}
+              {% else %}
+                No website
+              {% endif %}
+            </div>
+          </div>
+
+        </div>
+      </td>
+
+      <td>
+        {{ lead.category|default:"—" }}
+      </td>
+
+      <td>
+        {% if lead.city or lead.country %}
+          {{ lead.city }}
+          {% if lead.city and lead.country %}, {% endif %}
+          {{ lead.country }}
+        {% else %}
+          —
+        {% endif %}
+      </td>
+
+      <td>
+        {% if lead.ai_score %}
+          {{ lead.ai_score }}
+        {% else %}
+          —
+        {% endif %}
+      </td>
+
+      <td>
+        <span class="badge badge-neutral">
+          {{ lead.get_status_display }}
+        </span>
+      </td>
+
+    </tr>
+
+  {% empty %}
+
+    <tr>
+      <td colspan="5">
+
+        <div style="padding: 36px 20px; text-align: center;">
+
+          <strong>
+            No leads yet
+          </strong>
+
+          <div
+            class="muted"
+            style="margin-top: 6px;"
+          >
+            Create your first lead search to start discovering prospects.
+          </div>
+
+        </div>
+
+      </td>
+    </tr>
+
+  {% endfor %}
+
+</tbody>
+
+      </table>
+
+    </div>
+
+  </section>
+
+
+  <aside class="card">
+
+    <div class="card-header">
+
+      <div>
+        <h2 class="card-title">
+          Quick Actions
+        </h2>
+
+        <p class="card-subtitle">
+          Start working faster
+        </p>
+      </div>
+
+    </div>
+
+    <div class="card-body">
+
+      <div class="quick-actions">
+
+        <a href="#" class="quick-action">
+
+          <div class="quick-action-icon">
+            ⌕
+          </div>
+
+          <div>
+            <div class="quick-action-title">
+              Create lead search
+            </div>
+
+            <div class="quick-action-description">
+              Find businesses by niche and location
+            </div>
+          </div>
+
+        </a>
+
+
+        <a href="#" class="quick-action">
+
+          <div class="quick-action-icon">
+            ◎
+          </div>
+
+          <div>
+            <div class="quick-action-title">
+              Browse leads
+            </div>
+
+            <div class="quick-action-description">
+              Review discovered prospects
+            </div>
+          </div>
+
+        </a>
+
+
+        <a href="#" class="quick-action">
+
+          <div class="quick-action-icon">
+            ↓
+          </div>
+
+          <div>
+            <div class="quick-action-title">
+              Export leads
+            </div>
+
+            <div class="quick-action-description">
+              Download qualified opportunities
+            </div>
+          </div>
+
+        </a>
+
+      </div>
+
+    </div>
+
+  </aside>
+
+</div>
+
+{% endblock %}

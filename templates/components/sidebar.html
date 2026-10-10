@@ -1,0 +1,154 @@
+<aside
+  class="sidebar"
+  data-sidebar
+>
+
+  <div class="sidebar-brand">
+
+    <div class="brand-logo">
+      LF
+    </div>
+
+    <div class="brand-content">
+      <h2 class="brand-name">
+        LeadForge AI
+      </h2>
+
+      <div class="brand-caption">
+        Lead Intelligence
+      </div>
+    </div>
+
+  </div>
+
+  <nav class="sidebar-nav">
+
+    <div class="nav-label">
+      Workspace
+    </div>
+
+    <a
+      href="{% url 'dashboard' %}"
+      class="nav-item active"
+    >
+      <svg
+        class="nav-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+      >
+        <rect x="3" y="3" width="7" height="7" rx="2"/>
+        <rect x="14" y="3" width="7" height="7" rx="2"/>
+        <rect x="3" y="14" width="7" height="7" rx="2"/>
+        <rect x="14" y="14" width="7" height="7" rx="2"/>
+      </svg>
+
+      Dashboard
+    </a>
+
+    <a href="#" class="nav-item">
+
+      <svg
+        class="nav-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+      >
+        <circle cx="11" cy="11" r="7"/>
+        <path d="m20 20-3.5-3.5"/>
+      </svg>
+
+      Lead Searches
+    </a>
+
+    <a href="#" class="nav-item">
+
+      <svg
+        class="nav-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+      >
+        <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+
+      Leads
+    </a>
+
+    <a href="#" class="nav-item">
+
+      <svg
+        class="nav-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+      >
+        <path d="M12 20V10"/>
+        <path d="M18 20V4"/>
+        <path d="M6 20v-4"/>
+      </svg>
+
+      Analytics
+    </a>
+
+    <div class="nav-label">
+      Management
+    </div>
+
+    <a href="#" class="nav-item">
+
+      <svg
+        class="nav-icon"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+      >
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.4 15a1.7 1.7 0 0 0 .34 1.88l.06.06-2.83 2.83-.06-.06A1.7 1.7 0 0 0 15 19.4"/>
+        <path d="M9 19.4a1.7 1.7 0 0 0-1.88.34l-.06.06-2.83-2.83.06-.06A1.7 1.7 0 0 0 4.6 15"/>
+      </svg>
+
+      Settings
+    </a>
+
+  </nav>
+
+  <div class="sidebar-footer">
+
+    <div class="user-box">
+
+      <div class="user-avatar">
+        {% if request.user.is_authenticated %}
+          {{ request.user.username|slice:":1"|upper }}
+        {% else %}
+          U
+        {% endif %}
+      </div>
+
+      <div>
+        <div class="user-name">
+          {% if request.user.is_authenticated %}
+            {{ request.user.username }}
+          {% else %}
+            LeadForge User
+          {% endif %}
+        </div>
+
+        <div class="user-role">
+          Workspace Admin
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</aside>

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+<div class="app-shell">
+
+  {% include "components/sidebar.html" %}
+
+  <div
+    class="sidebar-overlay"
+    data-sidebar-overlay
+  ></div>
+
+  <main class="main-area">
+
+    {% include "components/topbar.html" %}
+
+    <div class="page-content">
+
+      {% block content %}
+      {% endblock %}
+
+    </div>
+
+  </main>
+
+</div>
+
+{% endblock %}
